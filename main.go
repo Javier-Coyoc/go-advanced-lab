@@ -2,7 +2,9 @@ package main
 
 import (
 	"errors"
+	"fmt"
 	"math"
+	"os"
 )
 
 // Part 1 Functions
@@ -139,6 +141,18 @@ func Compose(f func(int) int, g func(int) int) func(int) int {
 	}
 }
 
-func main() {
+func ExploreProcess() {
+	pid := os.Getpid()
+	fmt.Println(pid)
+	ppid := os.Getppid()
+	fmt.Println(ppid)
 
+	data := []int{1, 2, 3, 4, 5}
+	fmt.Printf("Memory address of data slice is: %p\n", &data)
+	fmt.Printf("Memory address of first element in slice is: %p\n", &data[0])
+	fmt.Println("Note: Other processes cannot access these memory addresses directly.")
+}
+
+func main() {
+	ExploreProcess()
 }
