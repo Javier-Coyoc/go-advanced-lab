@@ -5,6 +5,7 @@ import (
 	"math"
 )
 
+// Part 1 Functions
 func Factorial(n int) (int, error) {
 	if n < 0 {
 		return 0, errors.New("Factorial is not defined for negative numbers")
@@ -65,6 +66,7 @@ func Power(base, exponent int) (int, error) {
 	return result, nil
 }
 
+// Part 2 Functions
 func MakeCounter(start int) func() int {
 	counter := 0
 
@@ -95,6 +97,46 @@ func MakeAccumulator(initial int) (add func(int), subtract func(int), get func()
 	}
 
 	return add, subtract, get
+}
+
+// Part 3 functions
+func Apply(nums []int, operation func(int) int) []int {
+	newSlice := []int{}
+
+	//For loop to loop through the slice and apply the function to each of the elements
+	for _, v := range nums {
+		newSlice = append(newSlice, operation(v))
+	}
+
+	return newSlice
+}
+
+func Filter(nums []int, predicate func(int) bool) []int {
+	newSlice := []int{}
+
+	for _, v := range nums {
+		if predicate(v) {
+			newSlice = append(newSlice, v)
+		}
+	}
+	return newSlice
+}
+
+func Reduce(nums []int, initial int, operation func(accumulator, current int) int) int {
+	accumulator := initial
+
+	for i := 0; i < len(nums); i++ {
+		current := nums[i]
+		accumulator = operation(accumulator, current)
+	}
+	return accumulator
+}
+
+func Compose(f func(int) int, g func(int) int) func(int) int {
+	return func(x int) int {
+		//returns a composite function that gets the answer to g(x) first then f() is run and given the result of g(x)
+		return f(g(x))
+	}
 }
 
 func main() {
