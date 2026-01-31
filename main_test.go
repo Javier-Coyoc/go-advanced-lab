@@ -94,3 +94,87 @@ func TestPower(t *testing.T) {
 		})
 	}
 }
+
+func TestMakeCounter(t *testing.T) {
+	tests := []struct {
+		name  string
+		start int
+		calls int
+		want  []int
+	}{
+		{name: "start at 0 three calls", start: 0, calls: 3, want: []int{1, 2, 3}},
+		{name: "start at 5 three calls", start: 5, calls: 3, want: []int{1, 2, 3}},
+		{name: "start negative", start: -4, calls: 2, want: []int{1, 2}},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			counter := MakeCounter(tt.start)
+
+			for i := 0; i < tt.calls; i++ {
+				got := counter()
+				if got != tt.want[i] {
+					t.Errorf("call %d = %d, want %d", i+1, got, tt.want[i])
+				}
+			}
+		})
+	}
+}
+
+func TestMakeMultiplier(t *testing.T) {
+	tests := []struct {
+		name   string
+		factor int
+		input  int
+		want   int
+	}{
+		{name: "double", factor: 2, input: 3, want: 6},
+		{name: "times five", factor: 5, input: 4, want: 20},
+		{name: "zero input", factor: 7, input: 0, want: 0},
+		{name: "negative input", factor: 3, input: -2, want: -6},
+		{name: "negative factor", factor: -2, input: 3, want: -6},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			m := MakeMultiplier(tt.factor)
+			got := m(tt.input)
+			if got != tt.want {
+				t.Errorf("got %d, want %d", got, tt.want)
+			}
+		})
+	}
+}
+
+func TestMakeAccumulator(t *testing.T) {
+	tests := []struct {
+		name    string
+		initial int
+		adds    []int
+		subs    []int
+		want    int
+	}{
+		{name: "add only", initial: 10, adds: []int{5, 5}, subs: []int{}, want: 20},
+		{name: "add and subtract", initial: 10, adds: []int{5}, subs: []int{3}, want: 12},
+		{name: "subtract only", initial: 10, adds: []int{}, subs: []int{4}, want: 6},
+		{name: "mixed ops", initial: 0, adds: []int{10, 2}, subs: []int{5}, want: 7},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			add, subtract, get := MakeAccumulator(tt.initial)
+
+			for _, v := range tt.adds {
+				add(v)
+			}
+			for _, v := range tt.subs {
+				subtract(v)
+			}
+
+			got := get()
+			if got != tt.want {
+				t.Errorf("got %d, want %d", got, tt.want)
+			}
+		})
+	}
+}

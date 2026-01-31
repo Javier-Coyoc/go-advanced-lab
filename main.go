@@ -46,15 +46,55 @@ func IsPrime(n int) (bool, error) {
 }
 
 func Power(base, exponent int) (int, error) {
-	if exponent <= 0 {
+	if exponent < 0 {
 		return 0, errors.New("negative exponents not supported")
+	}
+	//any number raised to zero exponent is equal 1
+	if exponent == 0 {
+		return 1, nil
+	}
+
+	if base == 0 {
+		return 0, nil
 	}
 
 	result := 1
 	for i := 0; i < exponent; i++ {
-		result += result * base
+		result = result * base
 	}
 	return result, nil
+}
+
+func MakeCounter(start int) func() int {
+	counter := 0
+
+	return func() int {
+		counter++
+		return counter
+	}
+}
+
+func MakeMultiplier(factor int) func(int) int {
+	return func(num int) int {
+		return factor * num
+	}
+}
+
+func MakeAccumulator(initial int) (add func(int), subtract func(int), get func() int) {
+	total := initial
+	add = func(num int) {
+		total += num
+	}
+
+	subtract = func(num int) {
+		total -= num
+	}
+
+	get = func() int {
+		return total
+	}
+
+	return add, subtract, get
 }
 
 func main() {
