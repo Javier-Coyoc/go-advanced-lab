@@ -141,6 +141,7 @@ func Compose(f func(int) int, g func(int) int) func(int) int {
 	}
 }
 
+// Part 4 function
 func ExploreProcess() {
 	pid := os.Getpid()
 	fmt.Println(pid)
@@ -151,6 +152,58 @@ func ExploreProcess() {
 	fmt.Printf("Memory address of data slice is: %p\n", &data)
 	fmt.Printf("Memory address of first element in slice is: %p\n", &data[0])
 	fmt.Println("Note: Other processes cannot access these memory addresses directly.")
+	//What a process ID is: process id is a number of each individual isntance running on a computer's operating systems allowing for you monitor different statistics
+	//Process Isolation is important because it allows for processes not to interrupt one another and also allows you to use multiple processes at a time
+	//Difference between the slice header address and element address is the slice header address gives you the memory address of the slice along with the pointer, length and capacity (usually stored in the stack) while the element address is the memory of the first element in the array and is usually stored in the heap
+
+}
+
+// Part 5 functions:
+func DoubleValue(x int) {
+	x = x * x
+	fmt.Println(x)
+	//I don't believe this will modify the orginal variable but instead create a copy for use
+}
+
+func DoublePointer(x *int) {
+	*x = (*x) * (*x)
+}
+
+func CreateOnStack() int {
+	localVar := 0
+	return localVar
+	//This variable stays on the stack
+}
+
+func CreateOnHeap() *int {
+	localVar := 0
+	var p *int = &localVar
+	return p
+}
+
+func SwapValues(a, b int) (int, int) {
+	temp := a
+	a = b
+	b = temp
+	return a, b
+}
+
+func SwapPointers(a, b *int) {
+	temp := *a
+	*a = *b
+	*b = temp
+}
+
+func AnalyzeEscape() {
+	CreateOnStack()
+	CreateOnHeap()
+	/*
+	   	In a comment in your code, explain:
+
+	   Which variables escaped to the heap? 'x' variable escaped to the heap
+	   Why did they escape? the x variable escaped to the heap because it uses fmt.Println which forces it to the heap
+	   What does "escapes to heap" mean? Escape to the heap means that data is kept after the function ends usually in function returns so when a function ends it returns variables which escape to the heap for longer use
+	*/
 }
 
 func main() {

@@ -285,3 +285,58 @@ func TestCompose(t *testing.T) {
 		})
 	}
 }
+
+func TestSwapValues(t *testing.T) {
+	tests := []struct {
+		name  string
+		a     int
+		b     int
+		wantA int
+		wantB int
+	}{
+		{"normal numbers", 3, 7, 7, 3},
+		{"zeros", 0, 0, 0, 0},
+		{"negative + positive", -5, 2, 2, -5},
+		{"both negative", -3, -9, -9, -3},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			gotA, gotB := SwapValues(tt.a, tt.b)
+
+			if gotA != tt.wantA || gotB != tt.wantB {
+				t.Errorf("got (%d,%d) want (%d,%d)",
+					gotA, gotB, tt.wantA, tt.wantB)
+			}
+		})
+	}
+}
+
+func TestSwapPointers(t *testing.T) {
+	tests := []struct {
+		name  string
+		a     int
+		b     int
+		wantA int
+		wantB int
+	}{
+		{"normal numbers", 4, 9, 9, 4},
+		{"zeros", 0, 0, 0, 0},
+		{"negative + positive", -3, 5, 5, -3},
+		{"both negative", -2, -8, -8, -2},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			a := tt.a
+			b := tt.b
+
+			SwapPointers(&a, &b)
+
+			if a != tt.wantA || b != tt.wantB {
+				t.Errorf("got (%d,%d) want (%d,%d)",
+					a, b, tt.wantA, tt.wantB)
+			}
+		})
+	}
+}
