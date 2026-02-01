@@ -207,5 +207,87 @@ func AnalyzeEscape() {
 }
 
 func main() {
+
 	ExploreProcess()
+
+	fmt.Println("\n====== Math Operations ======")
+
+	for _, n := range []int{0, 5, 10} {
+		if v, err := Factorial(n); err != nil {
+			fmt.Println("Factorial error:", err)
+		} else {
+			fmt.Printf("Factorial(%d) = %d\n", n, v)
+		}
+	}
+
+	for _, n := range []int{17, 20, 25} {
+		if v, err := IsPrime(n); err != nil {
+			fmt.Printf("IsPrime(%d) error: %v\n", n, err)
+		} else {
+			fmt.Printf("IsPrime(%d) = %v\n", n, v)
+		}
+	}
+
+	if v, err := Power(2, 8); err == nil {
+		fmt.Println("Power(2,8) =", v)
+	} else {
+		fmt.Println(err)
+	}
+
+	if v, err := Power(5, 3); err == nil {
+		fmt.Println("Power(5,3) =", v)
+	} else {
+		fmt.Println(err)
+	}
+
+	fmt.Println("\n====== Closure Demonstration ======")
+
+	counter1 := MakeCounter(0)
+	counter2 := MakeCounter(100)
+
+	fmt.Println("Counter1:", counter1())
+	fmt.Println("Counter1:", counter1())
+	fmt.Println("Counter2:", counter2())
+	fmt.Println("Counter2:", counter2())
+
+	doubler := MakeMultiplier(2)
+	tripler := MakeMultiplier(3)
+
+	fmt.Println("Doubler(6):", doubler(6))
+	fmt.Println("Tripler(6):", tripler(6))
+
+	fmt.Println("\n====== Higher-Order Functions ======")
+
+	nums := []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
+	fmt.Println("Original:", nums)
+
+	squared := Apply(nums, func(x int) int { return x * x })
+	fmt.Println("Squared:", squared)
+
+	evens := Filter(nums, func(x int) bool { return x%2 == 0 })
+	fmt.Println("Even numbers:", evens)
+
+	sum := Reduce(nums, 0, func(a, c int) int { return a + c })
+	fmt.Println("Sum:", sum)
+
+	doubleThenAdd10 := Compose(
+		func(x int) int { return x + 10 },
+		func(x int) int { return x * 2 },
+	)
+
+	fmt.Println("Compose(double then +10)(5):", doubleThenAdd10(5))
+
+	//Pointer demostration
+	fmt.Println("\n====== Pointer Demonstration ======")
+
+	a, b := 5, 10
+	fmt.Printf("Before SwapValues: a=%d b=%d\n", a, b)
+	x, y := SwapValues(a, b)
+	fmt.Printf("After SwapValues: a=%d b=%d (unchanged originals)\n", a, b)
+	fmt.Printf("Returned swapped values: %d %d\n", x, y)
+
+	p, q := 5, 10
+	fmt.Printf("Before SwapPointers: p=%d q=%d\n", p, q)
+	SwapPointers(&p, &q)
+	fmt.Printf("After SwapPointers: p=%d q=%d (originals changed)\n", p, q)
 }
