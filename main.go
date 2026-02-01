@@ -202,7 +202,7 @@ func AnalyzeEscape() {
 
 	   Which variables escaped to the heap? 'x' variable escaped to the heap
 	   Why did they escape? the x variable escaped to the heap because it uses fmt.Println which forces it to the heap
-	   What does "escapes to heap" mean? Escape to the heap means that data is kept after the function ends usually in function returns so when a function ends it returns variables which escape to the heap for longer use
+	   What does"escapes to heap" mean? Escape to the heap means that data is kept after the function ends usually in function returns so when a function ends it returns variables which escape to the heap for longer use
 	*/
 }
 
